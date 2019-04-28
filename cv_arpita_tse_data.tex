@@ -1,0 +1,512 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[9pt]{article}
+%%\usepackage[a4paper, total={6in, 10in}]{geometry}
+
+% The automated optical recognition software used to digitize resume
+% information works best with fonts that do not have serifs. This
+% command uses a sans serif font throughout. Uncomment both lines (or at
+% least the second) to restore a Roman font (i.e., a font with serifs).
+%\usepackage{times}
+%\renewcommand{\familydefault}{\sfdefault}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+\usepackage{comment}
+
+
+%% For multi col references
+\usepackage{paracol}
+\usepackage{multicol}
+\usepackage{marvosym} % For cool symbols.                               
+\usepackage{hyperref}
+
+
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em} %1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}%
+        {\begin{enumerate}{}{%
+%        {\begin{list}{}{%
+       \setlength{\leftmargin}{\bibhang}%
+       \setlength{\itemindent}{-\leftmargin}%
+       \setlength{\itemsep}{\bibsep}%
+       \setlength{\parsep}{\z@}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{enumerate}\vspace{-.6\baselineskip}}
+%        {\end{list}\vspace{-.6\baselineskip}}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%% Use these lines for letter-sized paper
+
+\usepackage[paper=a4paper,                                        %
+            %includefoot, % Uncomment to put page number above margin %
+            marginparwidth=0.85 in,     % Length of section titles      %
+            marginparsep=.035in,       % Space between titles and text %
+            margin=0.6in,               % 1 inch margins                %
+            includemp]{geometry}                                      %
+
+
+%% Use these lines for A4-sized paper
+%\usepackage[paper=a4paper,
+%            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=30.5mm,    % Length of section titles
+%            marginparsep=1.5mm,       % Space between titles and text
+%            margin=25mm,              % 25mm margins
+%            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+\usepackage[shortlabels]{enumitem}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The title (name) with a horizontal rule under it
+% (optional argument typesets an object right-justified across from name
+%  as well)
+%
+% Usage: \makeheading{name}
+%        OR
+%        \makeheading[right_object]{name}
+%
+% Place at top of document. It should be the first thing.
+% If ``right_object'' is provided in the square-braced optional
+% argument, it will be right justified on the same line as ``name'' at
+% the top of the CV. For example:
+%
+%       \makeheading[\emph{Curriculum vitae}]{Your Name}
+%
+% will put an emphasized ``Curriculum vitae'' at the top of the document
+% as a title. Likewise, a picture could be included:
+%
+%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
+%
+% the picture will be flush right across from the name.
+\newcommand{\makeheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\large \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
+           %  \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+\newcommand{\makesubheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\normalsize \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
+             \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+\renewcommand{\section}[1]{\pagebreak[3]%
+    \hyphenpenalty=10000%
+    \vspace{1.3\baselineskip}%
+    \phantomsection\addcontentsline{toc}{section}{#1}%
+    \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\raggedright #1}}}%
+    \vspace{-\baselineskip}\par}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*]}{\end{itemize}%
+         \vspace{-.5\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.5\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}\vspace{-.5\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[3]}
+\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
+\providecommand*\url[1]{\href{#1}{#1}}
+% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
+\providecommand*\email[1]{\href{mailto:#1}{#1}}
+% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
+%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    \TeX}}
+\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    \TeX}}
+\providecommand\Matlab{\textsc{Matlab}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\makeheading{Arpita Pattanaik \hspace{3.3in} \Letter\ \email{arpita.gipe@gmail.com}}
+\makesubheading{ \hspace{4.75in} \Telefon\ (+33) (0) 6 01 25 89 14}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Contact Information}                                          %
+%                                                                        %
+% % NOTE: Mind where the & separators and \\ breaks are in the following %
+% %       table.                                                         %
+% %                                                                      %
+% % ALSO: \rcollength is the width of the right column of the table      %
+% %       (adjust it to your liking; default is 1.85in).                 %
+% %                                                                      %
+% \newlength{\rcollength}\setlength{\rcollength}{1.4in}                  %
+% \begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}         %
+%                                                                        %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%              %
+% % B-203, Mayfair Sonata Greens, & (+91)7045607955 \\    %              %
+% % Parksite, Vikhroli (W) & \email{arpita@igidr.ac.in}\\ %              %
+% % Mumbai, 79 & \\                                       %              %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%              %
+%                                                                        %
+% C-004, Mantri Terrace Apartment, & \Telefon\ (+91)7045607955 \\        %
+% Bengaluru, Karnataka - 560076. & \\                                    %
+% \end{tabular}                                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Education}
+
+
+
+\textbf{M1 in Economics \textit{(International)}} \hfill {2019}
+\begin{innerlist}
+\item Toulouse School of Economics, Toulouse, France    
+%\item First class with \textit{Distinction} (74.5\% or A+) 
+%\item Highest grades in Financial Econometrics II and Financial Regulations
+\end{innerlist}
+
+
+\textbf{Proficiency certification in Basics of Data Analytics} \hfill{2018}                                                     %
+\begin{innerlist}                                                      
+\item Indian Institute of Sciences (IISc), Bangalore, India            
+\end{innerlist}                                                        
+
+
+\textbf{M.A. Financial Economics} \hfill {2015}
+\begin{innerlist}
+\item Gokhale Institute of Politics and Economics, Pune, India    
+\item First class with \textit{Distinction} %(74.5\% or A+) 
+%\item Highest grades in Financial Econometrics II and Financial Regulations
+\end{innerlist}
+
+\vspace{0.8mm}
+
+ 
+\textbf{B.A. Economics (Hons), Mathematics and Statistics} \hfill {2013}
+\begin{innerlist}
+\item Utkal University, Bhubaneswar, India        
+\item First class with \textit{Distinction} %(72.7\% or A+) 
+%\item $2^{nd}$ in class of 80 students. Highest grades in Statistics in all semesters.
+\end{innerlist}
+
+\vspace{0.8mm}
+
+
+\section{Skills}
+\begin{innerlist}
+    \item \textbf{Programming skills:} R (advanced), SQL
+      (intermediate), STATA (intermediate), SAS (intermediate)
+\end{innerlist}
+\begin{innerlist}
+\item \textbf{Languages:} English(fluent), Hindi(native), French(basic) 
+
+\end{innerlist}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \textbf{CBSE All India Senior School Certification Examination} \hfill{2010}     %
+% \begin{outerlist}                                                                %
+% \item[]                                                                          %
+%   \begin{innerlist}                                                              %
+%   \item Secured 82.2\%                                                           %
+%   \end{innerlist}                                                                %
+% \end{outerlist}                                                                  %
+% \vspace{2mm}                                                                     %
+%                                                                                  %
+%                                                                                  %
+% \textbf{ICSE Indian Certificate of Secondary Education Examination} \hfill{2008} %
+% \begin{outerlist}                                                                %
+% \item[]                                                                          %
+%   \begin{innerlist}                                                              %
+%   \item Secured 94.4\%                                                           %
+%   \end{innerlist}                                                                %
+% \end{outerlist}                                                                  %
+% \vspace{.01in}                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Working papers}                                                                                                     %
+% \vspace{-.1275in}                                                                                                            %
+% \begin{bibsection}                                                                                                           %
+% \item Pattanaik, A. and Thomas, S.                                                                                           %
+%   \href{http://www.ifrogs.org/PDF/PattanaikThomas2017_cttimpact.pdf}{``Impact                                                %
+%     of commodities transactions tax (CTT) on the quality of Indian                                                           %
+%     commodity derivatives market and an estimate of revenue loss.''},                                                        %
+%   FRG Working Paper, 2017                                                                                                    %
+% \item Pattanaik, A. and Sengupta, R.\href{http://www.igidr.ac.in/pdf/publication/WP-2018-001.pdf}{``Business cycle effect on %
+%     leverage: A study of Indian non-financial                                                                                %
+%     firms''}, IGIDR Working Paper, WP-2018-001, 2018.                                                                        %
+%                                                                                                                              %
+% \end{bibsection}                                                                                                             %
+%                                                                                                                              %
+%                                                                                                                              %
+% \section{In progress}                                                                                                        %
+% \vspace{-.1275in}                                                                                                            %
+% \begin{bibsection}                                                                                                           %
+%                                                                                                                              %
+% \item ``Interlocking Board and Firm Performance in India.'', with                                                            %
+%   \href{https://scholar.google.co.in/citations?user=RNnFEVgAAAAJ&hl=en}{Prof. Pitabas                                        %
+%     Mohanty, XLRI, Jamshedpur} {and Dr. Supriti Mishra} \\                                                                   %
+%   \textit{(*Accepted for presentation at World Finance Conference,                                                           %
+%     Mauritius, 2018)}                                                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \item ``Estimating economic value of regularizing land                                %
+%   tenure to the urban poor - Evidence from India'', with                              %
+%   \href{https://scholar.google.co.in/citations?user=JfnVvwwAAAAJ&hl=en}{Dr. Venkatesh %
+%     Panchapagesan}\\                                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%
+% \end{bibsection} %
+%%%%%%%%%%%%%%%%%%%%
+
+\section{Work Experience}                                                                
+
+\textbf{Internship}
+\begin{enumerate}
+\item \textbf{\href{http://https://www.compasslexecon.com/}{Compass
+      Lexecon} \textit{(Ongoing)}}\hfill {Apr - Aug 2019}
+  \begin{outerlist} 
+  \item Empirically analysing the effect of alliance between
+    airlines, on competition in the aviation industry.
+  \item Working with airlines datsets (fares and routes) using STATA to
+    carry out descriptive and regression analyses.  
+  \item Conducting market shares analysis for a merger case.
+  \end{outerlist}
+\end{enumerate}
+
+
+\textbf{Research Associate}
+\begin{enumerate}
+  \item \textbf{\href{http://www.iimb.ac.in/node/5501}{Real Estate
+      Research Initiative, }\href{http://http://iimb.ac.in/}{IIM
+      Bangalore, India}} \hfill {Jan - June 2018}                                                                        
+  \begin{outerlist}
+    
+  \item \textbf{Model to analyse property buy or rent
+      decision for Quikr (Indian classified advertising platform)}\\
+    Created a decision algorithm using R based on past property
+    appreciation trends, and other financial parameters, to 
+    analyse if it is economically viable to buy or rent the
+    property.
+    
+  \item  \textbf{Estimating economic value of regularizing land tenure
+      to the urban poor - Evidence from India.}
+  \item[] Worked on cleaning and visualisation of slum household
+    survey data, literature review and designing empirical methodology for
+    the paper.
+    
+  \end{outerlist}
+  
+\item \textbf{\href{http://www.ifrogs.org/people.html} {Finance Research Group},
+    \href{http://www.igidr.ac.in/}{IGIDR, Mumbai, India}} \hfill {2015 - 2017}                                     
+  
+  \begin{outerlist}                                                                                
+  \item \textbf{\textit{Web scraping exercise for automating download
+        of archived reports}} %\hfill{Nov 2016 - May 2017}
+  \item[] Wrote an algorithm in R to build URLs with changing timestamps
+    and download using wget, content from the web. 
+    
+  \item \textbf{\textit{International Competitiveness of Indian Financial Sector, for
+        Dept. of Economic Affairs, Ministry of Finance, India}}  %\hfill{June 2015 - June 2016}                       
+    
+  \item[] Automated scripts in R for data extraction and computation
+    of measures to create reports assessing the performance of
+    Indian equity, currency and commodity derivative markets vis-a-vis                            
+    international competitive markets.                                    
+    
+  \item \textbf{\textit{Investment impact of a value fund}} %\hfill{Aug 2016 - Oct 2016}                         
+  \item[] Evaluated the performance of a private funds' aggregate
+    portfolio performance and performance of individual investee firms
+    vis-a-vis matched peer firms. Used different matching techniques
+    to find matched firms.                                      
+    
+  \item \textbf{\textit{Studying the Indian commodity derivatives
+        market, with Multi commodity
+        exchange (MCX)}} %\hfill{Nov 2016 - May 2017}
+  \item[] Wrote a comprehensive \textit{R-program to compute the `Quarter sigma order size (QSOS)'} of
+    different commodity futures contracts trading at MCX. The measure
+    captures liquidity of contracts.%  and is prescribed by                   %
+    % the regulator (SEBI) for introduction of options contracts or continued %
+    % eligibility of existing contracts, in India.                            %
+    This exercise was done using 5 deep `market by price' data, as an
+    assignment for the research team at MCX.  
+  \end{outerlist}                                                                               
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \textbf{Summer Internship}                                                                         %
+% \begin{enumerate}                                                                                  %
+% \item \textbf{\href{http://www.ltfs.com/companies/lnt-finance.html}{L\&T                           %
+%     Finance, India}} \hfill {May- June 2014}\\                                                     %
+%   Drafted a report on the scope for small and medium-sized enterprise                              %
+%   (SME) financing in the state of Odisha. Estimated the gap between                                %
+%   demand and supply of SME credit. Surveyed state financiers to find the optimal SME loan product, %
+%   best performing SMEs (by region and sector) in terms of repayment                                %
+%   behavior.                                                                                        %
+% \end{enumerate}                                                                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Commentary}
+\vspace{-.1275in}
+\begin{bibsection}
+\item
+  \href{https://ajayshahblog.blogspot.in/2015/09/regulatory-governance-problems-in.html}{Pattanaik,
+    A., and, Sharma, A. ``Regulatory governance problems in the
+    legislative function at RBI and SEBI''}, \textit{Ajay Shah's blog,
+    23rd Sept, 2015}, \small({\textit{*Cited in an OECD publication: }\href{http://www.oecd-ilibrary.org/docserver/download/b335b35d-en.pdf?expires=1511938362&id=id&accname=guest&checksum=0FF1F43FFAFC4BD77B80BEC6995F3DC4}{Lalita Som, Faisal Naru, ``Moving towards regulatory governance''}})
+  
+\item
+  \href{http://indiacorplaw.blogspot.in/2017/01/measuring-outputs-v-outcomes-did.html}{Dutt
+    A., Pattanaik, A., and, Zaveri, B. ``Outputs v. outcomes: Studying
+    the ban on foreign investment in short-term corporate debt.''}, {\textit{IndianCorpLaw
+      Blog, 17th Jan, 2016}}
+  
+\item
+  \href{https://thewire.in/103427/time-reconsider-commodities-transaction-tax/}{Agarwal,
+    N., Pattanaik, A., and, Sharma, A. ``Why it's time to reconsider
+    the commodities transactions tax''}, \textit{The Wire, 27th Jan 2017}
+  
+\end{bibsection}
+
+
+\vspace{1.5mm}                                                              %
+\section{Workshops}                                         %
+\begin{innerlist}                                                           %
+                                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \item Co-authored paper accepted for presentation at                        % %
+% \href{https://www.world-finance-conference.com/conference.php?id=15}{`World % %
+% Finance Conference', Mauritius.}  \hfill{\textit{Forthcoming (July          % %
+% 2018)}}\\ {Interlocking Boards and Firm performance in India}               % %
+% \item Paper presented by co-author at                                       % %
+% \href{http://www.ifrogs.org/conf.html}{`8th Emerging Markets Finance        % %
+% Conference' (with Vanderbilt Law School), Mumbai} \hfill{18th Dec           % %
+% 2017}\\ \href{http://www.ifrogs.org/conf.html}{``Business cycle effect      % %
+% on leverage: A study of Indian non-financial firms''}                       % %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                                            %
+\item {Attended workshop on `Panel data econometrics and its                %
+applications', by \href{http://www.tiesindia.net/index.htm}{the Indian      %
+Econometrics Society}} \hfill{7 - 9 Jan 2015}                               %
+
+\end{innerlist}                                                             %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \vspace{1.5mm}                                                                            %
+% \section{Other scholastic achievements}                                                   %
+%   \begin{innerlist}                                                                       %
+%   \item \href{http://www.sofworld.org/nso}{\textit{$9^{th}$ National Science Olympiad}}\\ %
+%     All India Rank - 90, State rank - 3 \hfill {2007}                                     %
+%   \end{innerlist}                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{References}                                                             %
+% \begin{innerlist}                                                                %
+% \item[]                                                                          %
+%   \begin{paracol}{3}                                                             %
+%                                                                                  %
+%     Dr.\ K. S. Reddy\\                                                           %
+%     Gokhale Institute of Politics and Economics\\                                %
+%     Pune\\                                                                       %
+%     India\\                                                                      %
+%     \Telefon\ (+91)9545118639\\                                                  %
+%     \Letter\ \href{mailto:ksreddy@gipe.ac.in}{ksreddy\textrm{@}gipe.ac.in}       %
+%                                                                                  %
+%     \switchcolumn                                                                %
+%                                                                                  %
+%     Dr.\ R. Sengupta\\                                                           %
+%     Indira Gandhi Institute of Development Research\\                            %
+%     Mumbai-400063\\                                                              %
+%     India\\                                                                      %
+%     \Letter\ \href{mailto:rajeswari@igidr.ac.in}{rajeswari\textrm{@}igidr.ac.in} %
+%                                                                                  %
+%                                                                                  %
+%   \end{paracol}                                                                  %
+%                                                                                  %
+% \end{innerlist}                                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
